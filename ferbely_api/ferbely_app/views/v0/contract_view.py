@@ -1,22 +1,14 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from ferbely_app.models import Contract
 from ferbely_app.serializers.v0.contract_serializer import ContractSerializer, ContractCreateSerializer
-from rest_framework.response import Response
-from rest_framework.decorators import action
 
 class ContractView(viewsets.ModelViewSet):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    serializer_class_create = ContractCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]  # Temporarily allow all for development
     
-    @action(detail=False, methods=['get'])
-    def get_all_contracts(self, request):
-        contracts = Contract.objects.all()
-        serializer = ContractSerializer(contracts, many=True)
-        return Response(serializer.data)
-    
-    @action(detail=False, methods=['get'])
-    def get_contract_by_id(self, request):
-        contract_id = request.query_params.get('id')
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return ContractCreateSerializer
+        return ContractSerializer

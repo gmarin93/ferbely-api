@@ -11,3 +11,6 @@ ROUTER_V0.register(r'buildings', BuildingView, basename='building')
 ROUTER_V0.register(r'tasks', TaskView, basename='task')
 ROUTER_V0.register(r'bills', BillView, basename='bill')
 ROUTER_V0.register(r'contracts', ContractView, basename='contract')
+
+# This is crucial - expose the URLs
+urls = ROUTER_V0.urls

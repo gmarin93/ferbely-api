@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from ferbely_app.models import Bill
 from ferbely_app.serializers.v0.bill_serializer import BillSerializer, BillCreateSerializer
 from rest_framework.response import Response
@@ -9,7 +9,7 @@ class BillView(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
     serializer_class_create = BillCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]  # Temporarily allow all for development
     
     @action(detail=False, methods=['get'])
     def get_all_bills(self, request):
