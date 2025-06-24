@@ -1,49 +1,50 @@
 import { api } from '@/lib/api';
+import { ENDPOINTS } from '@/config/api';
 import type { User, Building, Task, Bill, Contract, ApiResponse, LoginCredentials, RegisterData } from '@/types';
 
 // User API
 export const userApi = {
-  getAll: () => api.get<ApiResponse<User>>('/users/'),
-  getById: (id: number) => api.get<User>(`/users/${id}/`),
-  create: (data: Partial<User>) => api.post<User>('/users/', data),
-  update: (id: number, data: Partial<User>) => api.put<User>(`/users/${id}/`, data),
-  delete: (id: number) => api.delete(`/users/${id}/`),
+  getAll: () => api.get<ApiResponse<User>>(`${ENDPOINTS.USERS}/`),
+  getById: (id: number) => api.get<User>(`${ENDPOINTS.USERS}/${id}/`),
+  create: (data: Partial<User>) => api.post<User>(`${ENDPOINTS.USERS}/`, data),
+  update: (id: number, data: Partial<User>) => api.put<User>(`${ENDPOINTS.USERS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${ENDPOINTS.USERS}/${id}/`),
 };
 
 // Building API
 export const buildingApi = {
-  getAll: () => api.get<ApiResponse<Building>>('/buildings/'),
-  getById: (id: number) => api.get<Building>(`/buildings/${id}/`),
-  create: (data: Partial<Building>) => api.post<Building>('/buildings/', data),
-  update: (id: number, data: Partial<Building>) => api.put<Building>(`/buildings/${id}/`, data),
-  delete: (id: number) => api.delete(`/buildings/${id}/`),
+  getAll: () => api.get<ApiResponse<Building>>(`${ENDPOINTS.BUILDINGS}/`),
+  getById: (id: number) => api.get<Building>(`${ENDPOINTS.BUILDINGS}/${id}/`),
+  create: (data: Partial<Building>) => api.post<Building>(`${ENDPOINTS.BUILDINGS}/`, data),
+  update: (id: number, data: Partial<Building>) => api.put<Building>(`${ENDPOINTS.BUILDINGS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${ENDPOINTS.BUILDINGS}/${id}/`),
 };
 
 // Task API
 export const taskApi = {
-  getAll: () => api.get<ApiResponse<Task>>('/tasks/'),
-  getById: (id: number) => api.get<Task>(`/tasks/${id}/`),
-  create: (data: Partial<Task>) => api.post<Task>('/tasks/', data),
-  update: (id: number, data: Partial<Task>) => api.put<Task>(`/tasks/${id}/`, data),
-  delete: (id: number) => api.delete(`/tasks/${id}/`),
+  getAll: () => api.get<ApiResponse<Task>>(`${ENDPOINTS.TASKS}/`),
+  getById: (id: number) => api.get<Task>(`${ENDPOINTS.TASKS}/${id}/`),
+  create: (data: Partial<Task>) => api.post<Task>(`${ENDPOINTS.TASKS}/`, data),
+  update: (id: number, data: Partial<Task>) => api.put<Task>(`${ENDPOINTS.TASKS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${ENDPOINTS.TASKS}/${id}/`),
 };
 
 // Bill API
 export const billApi = {
-  getAll: () => api.get<ApiResponse<Bill>>('/bills/'),
-  getById: (id: number) => api.get<Bill>(`/bills/${id}/`),
-  create: (data: Partial<Bill>) => api.post<Bill>('/bills/', data),
-  update: (id: number, data: Partial<Bill>) => api.put<Bill>(`/bills/${id}/`, data),
-  delete: (id: number) => api.delete(`/bills/${id}/`),
+  getAll: () => api.get<ApiResponse<Bill>>(`${ENDPOINTS.BILLS}/`),
+  getById: (id: number) => api.get<Bill>(`${ENDPOINTS.BILLS}/${id}/`),
+  create: (data: Partial<Bill>) => api.post<Bill>(`${ENDPOINTS.BILLS}/`, data),
+  update: (id: number, data: Partial<Bill>) => api.put<Bill>(`${ENDPOINTS.BILLS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${ENDPOINTS.BILLS}/${id}/`),
 };
 
 // Contract API
 export const contractApi = {
-  getAll: () => api.get<ApiResponse<Contract>>('/contracts/'),
-  getById: (id: number) => api.get<Contract>(`/contracts/${id}/`),
-  create: (data: Partial<Contract>) => api.post<Contract>('/contracts/', data),
-  update: (id: number, data: Partial<Contract>) => api.put<Contract>(`/contracts/${id}/`, data),
-  delete: (id: number) => api.delete(`/contracts/${id}/`),
+  getAll: () => api.get<ApiResponse<Contract>>(`${ENDPOINTS.CONTRACTS}/`),
+  getById: (id: number) => api.get<Contract>(`${ENDPOINTS.CONTRACTS}/${id}/`),
+  create: (data: Partial<Contract>) => api.post<Contract>(`${ENDPOINTS.CONTRACTS}/`, data),
+  update: (id: number, data: Partial<Contract>) => api.put<Contract>(`${ENDPOINTS.CONTRACTS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${ENDPOINTS.CONTRACTS}/${id}/`),
 };
 
 // Auth API (if implemented in Django)
