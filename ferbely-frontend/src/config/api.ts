@@ -20,10 +20,5 @@ export const ENDPOINTS = {
   BILLS: '/bills',
 } as const;
 
-// Helper function to build full API URLs
-export const buildApiUrl = (endpoint: string): string => {
-  return `${API_CONFIG.BASE_URL}${endpoint}`;
-};
-
 // Export for backward compatibility
 export const API_BASE_URL = API_CONFIG.BASE_URL; 

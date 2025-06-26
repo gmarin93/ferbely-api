@@ -24,10 +24,8 @@ const Navbar = () => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Buildings', href: '/buildings', icon: Building },
-    { name: 'Contracts', href: '/contracts', icon: FileText },
     { name: 'Tasks', href: '/tasks', icon: CheckSquare },
     { name: 'Bills', href: '/bills', icon: Receipt },
-    { name: 'Users', href: '/users', icon: Users },
   ];
 
   const isActive = (href: string) => {

@@ -62,4 +62,7 @@ class Contract(models.Model):
         else:
             self.status = ContractStatus.INACTIVE
             self.save()
+            
+    def get_tasks(self):
+        return self.tasks.all()
     

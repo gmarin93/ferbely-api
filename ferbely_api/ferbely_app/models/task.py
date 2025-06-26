@@ -12,9 +12,20 @@ class TaskType:
         (OTHER, "Other"),
     ]
 
+class TaskStatus:
+    COMPLETED = "completed"
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    choices = [
+        (COMPLETED, "Completed"),
+        (PENDING, "Pending"),
+        (IN_PROGRESS, "In Progress"),
+    ]
+
 class Task(models.Model):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=11, choices=tuple(TaskType.choices))
+    status = models.CharField(max_length=11, choices=tuple(TaskStatus.choices), default=TaskStatus.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -32,4 +43,13 @@ class Task(models.Model):
     
     def get_task_type_value(self):
         return self.type
+    
+    def get_task_status(self):
+        return self.status
+    
+    def get_task_status_display(self):
+        return self.get_status_display()
+    
+    def get_task_status_value(self):
+        return self.status
     

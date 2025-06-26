@@ -1,5 +1,4 @@
-import { Building } from "lucide-react";
-import Card from "./Card";
+import Card from "./common/Card";
 
 const Cards_grid = ({ grid }: { grid: any }) => {
     
