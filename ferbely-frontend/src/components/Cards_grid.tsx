@@ -1,3 +1,5 @@
+'use client';
+
 import Card from "./common/Card";
 
 const Cards_grid = ({ grid }: { grid: any }) => {

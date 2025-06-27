@@ -1,3 +1,5 @@
+'use client';
+
 const Header = ({title}: {title: string}) => {
   return (
     <div className="mb-8">
