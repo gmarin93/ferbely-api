@@ -1,7 +1,10 @@
+import { pageVariants, spinnerVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
+
 const Loading = () => {
     return ( 
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+        <div className={cn(pageVariants(), "flex items-center justify-center")}>
+            <div className={spinnerVariants({ size: 'xl' })}></div>
         </div>
      );
 }

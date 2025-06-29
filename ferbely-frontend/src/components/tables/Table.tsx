@@ -23,14 +23,33 @@ import {
   ChevronsLeft,
   ChevronsRight
 } from "lucide-react";
+import { 
+  cardVariants, 
+  textVariants, 
+  inputVariants, 
+  buttonVariants,
+  tableVariants,
+  tableHeaderVariants,
+  tableCellVariants
+} from "@/styles/variants";
+import { cn } from "@/lib/utils";
+import type { VariantProps } from "class-variance-authority";
 
-interface TableProps {
+interface TableProps extends VariantProps<typeof tableVariants> {
   data: any[];
   columns: ColumnDef<any>[];
   title: string;
+  className?: string;
 }
 
-const Table: React.FC<TableProps> = ({ data, columns, title }) => {
+const Table: React.FC<TableProps> = ({ 
+  data, 
+  columns, 
+  title, 
+  variant = 'default', 
+  size = 'md', 
+  className 
+}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -58,17 +77,17 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
   });
 
   return (
-    <div className="bg-white rounded-lg shadow">
+    <div className={cn(cardVariants({ padding: 'none' }), className)}>
       {/* Header with Title and Search */}
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <h2 className={textVariants({ variant: 'h3' })}>{title}</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               value={globalFilter ?? ""}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className={cn(inputVariants({ size }), "pl-10")}
               placeholder={`Search ${title.toLowerCase()}...`}
             />
           </div>
@@ -79,14 +98,14 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
       <div className="overflow-x-auto">
         {data && data.length > 0 ? (
           <>
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className={tableVariants({ variant, size })}>
               <thead className="bg-gray-50">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100"
+                        className={tableHeaderVariants({ size })}
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         <div className="flex items-center space-x-1">
@@ -116,7 +135,7 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
                 {table.getRowModel().rows.map((row) => (
                   <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-6 py-4 whitespace-nowrap">
+                      <td key={cell.id} className={tableCellVariants({ size })}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -128,15 +147,15 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
             {/* Pagination */}
             <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-700">
+                <span className={textVariants({ variant: 'body' })}>
                   Showing{" "}
-                  <span className="font-medium">
+                  <span className={textVariants({ weight: 'medium' })}>
                     {table.getState().pagination.pageIndex *
                       table.getState().pagination.pageSize +
                       1}
                   </span>{" "}
                   to{" "}
-                  <span className="font-medium">
+                  <span className={textVariants({ weight: 'medium' })}>
                     {Math.min(
                       (table.getState().pagination.pageIndex + 1) *
                         table.getState().pagination.pageSize,
@@ -144,7 +163,7 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
                     )}
                   </span>{" "}
                   of{" "}
-                  <span className="font-medium">
+                  <span className={textVariants({ weight: 'medium' })}>
                     {table.getFilteredRowModel().rows.length}
                   </span>{" "}
                   results
@@ -153,14 +172,14 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
 
               <div className="flex items-center space-x-2">
                 <button
-                  className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={buttonVariants({ variant: 'ghost', size: 'icon' })}
                   onClick={() => table.setPageIndex(0)}
                   disabled={!table.getCanPreviousPage()}
                 >
                   <ChevronsLeft className="h-4 w-4" />
                 </button>
                 <button
-                  className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={buttonVariants({ variant: 'ghost', size: 'icon' })}
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
                 >
@@ -168,22 +187,22 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
                 </button>
                 
                 <span className="flex items-center space-x-1">
-                  <span className="text-sm text-gray-700">Page</span>
-                  <strong className="text-sm">
+                  <span className={textVariants({ variant: 'body' })}>Page</span>
+                  <strong className={textVariants({ variant: 'body', weight: 'medium' })}>
                     {table.getState().pagination.pageIndex + 1} of{" "}
                     {table.getPageCount()}
                   </strong>
                 </span>
 
                 <button
-                  className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={buttonVariants({ variant: 'ghost', size: 'icon' })}
                   onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
                 <button
-                  className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={buttonVariants({ variant: 'ghost', size: 'icon' })}
                   onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                   disabled={!table.getCanNextPage()}
                 >
@@ -195,7 +214,7 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
                   onChange={(e) => {
                     table.setPageSize(Number(e.target.value));
                   }}
-                  className="ml-2 border border-gray-300 rounded-md px-2 py-1 text-sm"
+                  className={cn(inputVariants({ size: 'sm' }), "ml-2")}
                 >
                   {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                     <option key={pageSize} value={pageSize}>
@@ -210,10 +229,10 @@ const Table: React.FC<TableProps> = ({ data, columns, title }) => {
           // No data state
           <div className="px-6 py-12 text-center">
             <CalendarDays className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className={cn(textVariants({ variant: 'h4' }), "mb-2")}>
               No {title.toLowerCase()} found
             </h3>
-            <p className="text-gray-500">
+            <p className={textVariants({ variant: 'muted' })}>
               There are currently no {title.toLowerCase()} in the system.
             </p>
           </div>

@@ -1,5 +1,7 @@
 import React from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { textVariants, inputVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
 
 interface FormFieldProps {
   label: string;
@@ -11,13 +13,13 @@ interface FormFieldProps {
 export const FormField = ({ label, error, required, children }: FormFieldProps) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className={cn(textVariants({ variant: 'caption' }), "block mb-1")}>
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       {children}
       {error && (
-        <p className="text-red-500 text-sm mt-1">{error.message}</p>
+        <p className={cn(textVariants({ variant: 'small' }), "text-red-500 mt-1")}>{error.message}</p>
       )}
     </div>
   );
@@ -46,7 +48,7 @@ export const InputField = ({
         {...register}
         type={type}
         placeholder={placeholder}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={inputVariants({ variant: error ? 'error' : 'default' })}
       />
     </FormField>
   );
@@ -73,7 +75,7 @@ export const SelectField = ({
     <FormField label={label} error={error} required={required}>
       <select
         {...register}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={inputVariants({ variant: error ? 'error' : 'default' })}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (

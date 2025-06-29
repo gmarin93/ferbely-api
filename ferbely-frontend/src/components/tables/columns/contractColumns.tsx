@@ -1,12 +1,26 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Contract } from "@/types";
+import { badgeVariants, textVariants, buttonVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
+
+// Status mapping for badge variants
+const getStatusVariant = (status: string) => {
+  switch (status) {
+    case 'active':
+      return 'success';
+    case 'expired':
+      return 'error';
+    default:
+      return 'neutral';
+  }
+};
 
 export const contractColumns: ColumnDef<Contract>[] = [
   {
     accessorKey: "name",
     header: "Contract Name",
     cell: ({ row }) => (
-      <div className="text-sm font-medium text-gray-900">
+      <div className={textVariants({ variant: 'body', weight: 'medium' })}>
         {row.getValue("name")}
       </div>
     ),
@@ -15,7 +29,7 @@ export const contractColumns: ColumnDef<Contract>[] = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
+      <span className={cn(badgeVariants({ variant: 'info' }), "capitalize")}>
         {row.getValue("type")}
       </span>
     ),
@@ -26,7 +40,7 @@ export const contractColumns: ColumnDef<Contract>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("start_date"));
       return (
-        <div className="text-sm font-medium text-gray-900">
+        <div className={textVariants({ variant: 'body', weight: 'medium' })}>
           {date.toLocaleDateString()}
         </div>
       );
@@ -39,7 +53,10 @@ export const contractColumns: ColumnDef<Contract>[] = [
       const date = new Date(row.getValue("end_date"));
       const isExpired = date < new Date();
       return (
-        <div className={`text-sm font-medium ${isExpired ? 'text-red-600' : 'text-gray-900'}`}>
+        <div className={cn(
+          textVariants({ variant: 'body', weight: 'medium' }),
+          isExpired ? 'text-red-600' : 'text-gray-900'
+        )}>
           {date.toLocaleDateString()}
         </div>
       );
@@ -49,7 +66,7 @@ export const contractColumns: ColumnDef<Contract>[] = [
     accessorKey: "price",
     header: "Price",
     cell: ({ row }) => (
-      <div className="text-sm font-medium text-green-600">
+      <div className={cn(textVariants({ variant: 'body', weight: 'medium' }), "text-green-600")}>
         ${parseFloat(row.getValue("price")).toFixed(2)}
       </div>
     ),
@@ -59,11 +76,9 @@ export const contractColumns: ColumnDef<Contract>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
+      const variant = getStatusVariant(status);
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-          ${status === 'active' ? 'bg-green-100 text-green-800' : 
-            status === 'expired' ? 'bg-red-100 text-red-800' : 
-            'bg-gray-100 text-gray-800'}`}>
+        <span className={cn(badgeVariants({ variant }), "capitalize")}>
           {status}
         </span>
       );
@@ -74,10 +89,10 @@ export const contractColumns: ColumnDef<Contract>[] = [
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex space-x-2">
-        <button className="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
+        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-indigo-600 hover:text-indigo-900")}>
           View
         </button>
-        <button className="text-green-600 hover:text-green-900 text-sm font-medium">
+        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-green-600 hover:text-green-900")}>
           Edit
         </button>
       </div>

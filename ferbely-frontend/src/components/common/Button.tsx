@@ -1,13 +1,39 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { buttonVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
+import type { VariantProps } from "class-variance-authority";
+import React from "react";
 
-interface ButtonComponentProps {
+// Generic Button Component
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, variant = 'primary', size = 'md', className, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cn(buttonVariants({ variant, size }), className)}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "Button";
+
+// Specialized Button Component for routing
+interface ButtonComponentProps extends VariantProps<typeof buttonVariants> {
   createFor: 'buildings' | 'tasks' | 'contracts' | 'users' | 'login';
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary';
-  size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
 export const ButtonComponent = ({ 
@@ -15,7 +41,8 @@ export const ButtonComponent = ({
   children, 
   onClick,
   variant = 'primary',
-  size = 'md'
+  size = 'md',
+  className
 }: ButtonComponentProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -32,13 +59,13 @@ export const ButtonComponent = ({
   };
 
   return (
-    <button
+    <Button
       onClick={handleClick}
-      className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${
-        size === 'lg' ? 'px-6 py-3 text-base' : ''
-      }`}
+      variant={variant}
+      size={size}
+      className={className}
     >
       {children}
-    </button>
+    </Button>
   );
 };

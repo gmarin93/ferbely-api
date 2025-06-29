@@ -1,11 +1,14 @@
 'use client';
 
+import { headerVariants, textVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
+
 const Header = ({title, children}: {title: string, children?: React.ReactNode}) => {
   return (
-    <div className="flex items-center justify-between mb-8">
+    <div className={headerVariants()}>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-        <p className="mt-2 text-gray-600">
+        <h1 className={textVariants({ variant: 'h1' })}>{title}</h1>
+        <p className={cn(textVariants({ variant: 'muted' }), "mt-2")}>
           Manage {title.toLowerCase()} in your property management system
         </p>
       </div>

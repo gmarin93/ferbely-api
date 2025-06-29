@@ -1,12 +1,28 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Task } from "@/types";
+import { badgeVariants, textVariants, buttonVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
+
+// Status mapping for badge variants
+const getStatusVariant = (status: string) => {
+  switch (status) {
+    case 'completed':
+      return 'success';
+    case 'pending':
+      return 'warning';
+    case 'in_progress':
+      return 'info';
+    default:
+      return 'neutral';
+  }
+};
 
 export const taskColumns: ColumnDef<Task>[] = [
   {
     accessorKey: "name",
     header: "Task Name",
     cell: ({ row }) => (
-      <div className="text-sm font-medium text-gray-900">
+      <div className={textVariants({ variant: 'body', weight: 'medium' })}>
         {row.getValue("name")}
       </div>
     ),
@@ -16,13 +32,10 @@ export const taskColumns: ColumnDef<Task>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
+      const variant = getStatusVariant(status);
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-          ${status === 'completed' ? 'bg-green-100 text-green-800' : 
-            status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-            status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-            'bg-gray-100 text-gray-800'}`}>
-          {status?.replace('_', ' ').charAt(0).toUpperCase() + status?.replace('_', ' ').slice(1)}
+        <span className={cn(badgeVariants({ variant }), "capitalize")}>
+          {status?.replace('_', ' ')}
         </span>
       );
     },
@@ -33,7 +46,7 @@ export const taskColumns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const contractName = row.getValue("contract_name") as string;
       return (
-        <div className="text-sm font-medium text-gray-900">
+        <div className={textVariants({ variant: contractName ? 'body' : 'muted', weight: 'medium' })}>
           {contractName || 'No Contract'}
         </div>
       );
@@ -44,10 +57,10 @@ export const taskColumns: ColumnDef<Task>[] = [
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex space-x-2">
-        <button className="text-indigo-600 hover:text-indigo-900 text-sm font-medium">
+        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-indigo-600 hover:text-indigo-900")}>
           View
         </button>
-        <button className="text-green-600 hover:text-green-900 text-sm font-medium">
+        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-green-600 hover:text-green-900")}>
           Edit
         </button>
       </div>

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
 import Navbar from "@/components/common/Navbar";
+import { pageVariants } from "@/styles/variants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           <Navbar />
-          <main className="min-h-screen bg-gray-50">
+          <main className={pageVariants()}>
             {children}
           </main>
         </QueryProvider>
