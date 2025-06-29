@@ -1,11 +1,11 @@
 "use client";
 
 import { Contract } from "@/types";
-import Cards_grid from "@/components/Cards_grid";
+import Cards_grid from "@/components/common/Cards_grid";
 import Loading from "@/components/common/Loading";
 import Error from "@/components/common/Error";
-import Table from "@/components/Table";
-import useFetch from "@/app/hooks/useFetch";
+import Table from "@/components/tables/Table";
+import useFetch from "@/hooks/useFetch";
 import { buildingApi, contractApi } from "@/services/api";
 import { contractColumns } from "@/components/tables/columns/contractColumns";
 import { contracts_grid } from "@/components/cards/grid/contracts_grid";

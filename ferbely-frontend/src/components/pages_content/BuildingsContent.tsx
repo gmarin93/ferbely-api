@@ -1,14 +1,15 @@
 "use client";
 
 import { Contract, Building as BuildingType } from "@/types";
-import Cards_grid from "@/components/Cards_grid";
+import Cards_grid from "@/components/common/Cards_grid";
 import Loading from "@/components/common/Loading";
 import Error from "@/components/common/Error";
-import Table from "@/components/Table";
-import useFetch from "@/app/hooks/useFetch";
+import Table from "@/components/tables/Table";
+import useFetch from "@/hooks/useFetch";
 import { buildingApi, contractApi } from "@/services/api";
 import { buildingColumns } from "@/components/tables/columns/buildingColumns";
 import { buildings_grid } from "@/components/cards/grid/buildings_grid";
+
 
 export default function BuildingsContent() {
   const {
