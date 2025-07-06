@@ -1,7 +1,32 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import LoginForm from "@/components/forms/LoginForm";
+import { useRouter } from "next/navigation";
+import { pageVariants, containerVariants } from "@/styles/variants";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
-  return <div>LoginPage</div>;
+  const router = useRouter();
+
+  return (
+    <div
+      className={pageVariants({
+        background: "white",
+        padding: "sm",
+        className: "flex items-center justify-center h-screen",
+      })}
+    >
+      <div
+        className={containerVariants({
+          size: "sm",
+          className: "w-full max-w-md",
+        })}
+      >
+        <LoginForm
+          onSuccess={() => router.push("/dashboard")}
+          onCancel={() => router.push("/dashboard")}
+        />
+      </div>
+    </div>
+  );
 }

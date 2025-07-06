@@ -23,4 +23,5 @@ class BillView(viewsets.ModelViewSet):
         bill = Bill.objects.get(id=bill_id)
         serializer = BillSerializer(bill)
         return Response(serializer.data)
+
     

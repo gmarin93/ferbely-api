@@ -34,6 +34,8 @@ export function useFormMutation<T>({
 
   const submit = (data: T) => {
     setIsSubmitting(true);
+    console.log('submit');
+    console.log(data);
     mutation.mutate(data);
   };
 

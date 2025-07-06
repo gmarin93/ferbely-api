@@ -16,14 +16,14 @@ interface FormContainerProps {
 export const FormContainer = ({ 
   title, 
   icon: Icon, 
-  children, 
+  children,
   onCancel, 
   isSubmitting, 
   submitText = 'Submit',
   error
 }: FormContainerProps) => {
   return (
-    <div className={cardVariants({ padding: 'md', border: 'light' })}>
+    <div className={cardVariants({ padding: 'md', border: 'light', className: 'w-full max-w-md' })}>
       <div className="flex items-center mb-6">
         <Icon className="h-6 w-6 text-blue-500 mr-2" />
         <h2 className={textVariants({ variant: 'h3' })}>{title}</h2>

@@ -8,7 +8,6 @@ import { authApi } from '@/services/api';
 import { useFormMutation } from '@/hooks/useFormMutation';
 import { FormContainer } from './FormContainer';
 import { InputField } from './FormField';
-import { ButtonComponent } from '../common/Button';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -37,16 +36,22 @@ export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
   });
 
   const { submit, isSubmitting, error } = useFormMutation({
-    mutationFn: authApi.login,
+    mutationFn: (data: LoginFormData) => {
+      return authApi.login(data);
+    },
     queryKey: 'login',
     onSuccess: () => {
+      console.log('✅ Login successful!');
       reset();
       onSuccess?.();
     },
   });
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit((data) => {
+      console.log('📝 Form submitted with data:', data);
+      submit(data);
+    })}>
       <FormContainer
         title="Login"
         icon={CheckSquare}
@@ -62,6 +67,7 @@ export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
             error={errors.email}
             required
             placeholder="Enter email"
+            type="email"
           />
 
           <InputField
@@ -71,10 +77,6 @@ export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
             required
             placeholder="Enter password"
           />
-
-          <ButtonComponent createFor="login" variant="primary" size="md">
-            Login
-          </ButtonComponent>
         </div>
       </FormContainer>
     </form>

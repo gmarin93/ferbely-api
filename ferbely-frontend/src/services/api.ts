@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { ENDPOINTS } from '@/config/api';
+import { API_CONFIG, ENDPOINTS } from '@/config/api';
 import type { User, Building, Task, Bill, Contract, ApiResponse, LoginCredentials, RegisterData } from '@/types';
 
 // User API
@@ -49,9 +49,23 @@ export const contractApi = {
 
 // Auth API (if implemented in Django)
 export const authApi = {
-  login: (credentials: LoginCredentials) => api.post('/auth/login/', credentials),
-  register: (data: RegisterData) => api.post('/auth/register/', data),
-  logout: () => api.post('/auth/logout/'),
-  refreshToken: () => api.post('/auth/refresh/'),
-  getProfile: () => api.get('/auth/profile/'),
+  login: (credentials: LoginCredentials) => {
+    console.log('🌐 Making API call to:', API_CONFIG.BASE_URL + '/api/v0/auth/login/');
+    console.log('📝 Sending credentials:', credentials);
+    return api.post(API_CONFIG.BASE_URL + '/api/v0/auth/login/', credentials)
+      .then(response => {
+        console.log('📥 API Response:', response);
+        return response;
+      })
+      .catch(error => {
+        console.error('❌ API Error:', error);
+        throw error;
+      });
+  },
+  register: (data: RegisterData) => api.post(API_CONFIG.BASE_URL + '/api/v0/auth/register/', data),
+  logout: () => api.post(API_CONFIG.BASE_URL + '/api/v0/auth/logout/'),
+  refreshToken: () => api.post(API_CONFIG.BASE_URL + '/api/v0/auth/refresh/'),
+  getProfile: () => api.get(API_CONFIG.BASE_URL + '/api/v0/auth/profile/'),
 }; 
+
+console.log(API_CONFIG.BASE_URL);

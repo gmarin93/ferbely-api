@@ -12,4 +12,5 @@ class BuildingView(viewsets.ModelViewSet):
         if self.action == 'create':
             return BuildingCreateSerializer
         return BuildingSerializer
+
     
