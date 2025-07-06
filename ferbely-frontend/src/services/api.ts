@@ -4,55 +4,55 @@ import type { User, Building, Task, Bill, Contract, ApiResponse, LoginCredential
 
 // User API
 export const userApi = {
-  getAll: () => api.get<ApiResponse<User>>(`${ENDPOINTS.USERS}/`),
-  getById: (id: number) => api.get<User>(`${ENDPOINTS.USERS}/${id}/`),
-  create: (data: Partial<User>) => api.post<User>(`${ENDPOINTS.USERS}/`, data),
-  update: (id: number, data: Partial<User>) => api.put<User>(`${ENDPOINTS.USERS}/${id}/`, data),
-  delete: (id: number) => api.delete(`${ENDPOINTS.USERS}/${id}/`),
+  getAll: () => api.get<ApiResponse<User>>(`${API_CONFIG.BASE_URL}${ENDPOINTS.USERS}/`),
+  getById: (id: number) => api.get<User>(`${API_CONFIG.BASE_URL}${ENDPOINTS.USERS}/${id}/`),
+  create: (data: Partial<User>) => api.post<User>(`${API_CONFIG.BASE_URL}${ENDPOINTS.USERS}/`, data),
+  update: (id: number, data: Partial<User>) => api.put<User>(`${API_CONFIG.BASE_URL}${ENDPOINTS.USERS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${API_CONFIG.BASE_URL}${ENDPOINTS.USERS}/${id}/`),
 };
 
 // Building API
 export const buildingApi = {
-  getAll: () => api.get<ApiResponse<Building>>(`${ENDPOINTS.BUILDINGS}/`),
-  getById: (id: number) => api.get<Building>(`${ENDPOINTS.BUILDINGS}/${id}/`),
-  create: (data: Partial<Building>) => api.post<Building>(`${ENDPOINTS.BUILDINGS}/`, data),
-  update: (id: number, data: Partial<Building>) => api.put<Building>(`${ENDPOINTS.BUILDINGS}/${id}/`, data),
-  delete: (id: number) => api.delete(`${ENDPOINTS.BUILDINGS}/${id}/`),
+  getAll: () => api.get<ApiResponse<Building>>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BUILDINGS}/`),
+  getById: (id: number) => api.get<Building>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BUILDINGS}/${id}/`),
+  create: (data: Partial<Building>) => api.post<Building>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BUILDINGS}/`, data),
+  update: (id: number, data: Partial<Building>) => api.put<Building>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BUILDINGS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${API_CONFIG.BASE_URL}${ENDPOINTS.BUILDINGS}/${id}/`),
 };
 
 // Task API
 export const taskApi = {
-  getAll: () => api.get<ApiResponse<Task>>(`${ENDPOINTS.TASKS}/`),
-  getById: (id: number) => api.get<Task>(`${ENDPOINTS.TASKS}/${id}/`),
-  create: (data: Partial<Task>) => api.post<Task>(`${ENDPOINTS.TASKS}/`, data),
-  update: (id: number, data: Partial<Task>) => api.put<Task>(`${ENDPOINTS.TASKS}/${id}/`, data),
-  delete: (id: number) => api.delete(`${ENDPOINTS.TASKS}/${id}/`),
+  getAll: () => api.get<ApiResponse<Task>>(`${API_CONFIG.BASE_URL}${ENDPOINTS.TASKS}/`),
+  getById: (id: number) => api.get<Task>(`${API_CONFIG.BASE_URL}${ENDPOINTS.TASKS}/${id}/`),
+  create: (data: Partial<Task>) => api.post<Task>(`${API_CONFIG.BASE_URL}${ENDPOINTS.TASKS}/`, data),
+  update: (id: number, data: Partial<Task>) => api.put<Task>(`${API_CONFIG.BASE_URL}${ENDPOINTS.TASKS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${API_CONFIG.BASE_URL}${ENDPOINTS.TASKS}/${id}/`),
 };
 
 // Bill API
 export const billApi = {
-  getAll: () => api.get<ApiResponse<Bill>>(`${ENDPOINTS.BILLS}/`),
-  getById: (id: number) => api.get<Bill>(`${ENDPOINTS.BILLS}/${id}/`),
-  create: (data: Partial<Bill>) => api.post<Bill>(`${ENDPOINTS.BILLS}/`, data),
-  update: (id: number, data: Partial<Bill>) => api.put<Bill>(`${ENDPOINTS.BILLS}/${id}/`, data),
-  delete: (id: number) => api.delete(`${ENDPOINTS.BILLS}/${id}/`),
+  getAll: () => api.get<ApiResponse<Bill>>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BILLS}/`),
+  getById: (id: number) => api.get<Bill>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BILLS}/${id}/`),
+  create: (data: Partial<Bill>) => api.post<Bill>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BILLS}/`, data),
+  update: (id: number, data: Partial<Bill>) => api.put<Bill>(`${API_CONFIG.BASE_URL}${ENDPOINTS.BILLS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${API_CONFIG.BASE_URL}${ENDPOINTS.BILLS}/${id}/`),
 };
 
 // Contract API
 export const contractApi = {
-  getAll: () => api.get<ApiResponse<Contract>>(`${ENDPOINTS.CONTRACTS}/`),
-  getById: (id: number) => api.get<Contract>(`${ENDPOINTS.CONTRACTS}/${id}/`),
-  create: (data: Partial<Contract>) => api.post<Contract>(`${ENDPOINTS.CONTRACTS}/`, data),
-  update: (id: number, data: Partial<Contract>) => api.put<Contract>(`${ENDPOINTS.CONTRACTS}/${id}/`, data),
-  delete: (id: number) => api.delete(`${ENDPOINTS.CONTRACTS}/${id}/`),
+  getAll: () => api.get<ApiResponse<Contract>>(`${API_CONFIG.BASE_URL}${ENDPOINTS.CONTRACTS}/`),
+  getById: (id: number) => api.get<Contract>(`${API_CONFIG.BASE_URL}${ENDPOINTS.CONTRACTS}/${id}/`),
+  create: (data: Partial<Contract>) => api.post<Contract>(`${API_CONFIG.BASE_URL}${ENDPOINTS.CONTRACTS}/`, data),
+  update: (id: number, data: Partial<Contract>) => api.put<Contract>(`${API_CONFIG.BASE_URL}${ENDPOINTS.CONTRACTS}/${id}/`, data),
+  delete: (id: number) => api.delete(`${API_CONFIG.BASE_URL}${ENDPOINTS.CONTRACTS}/${id}/`),
 };
 
 // Auth API (if implemented in Django)
 export const authApi = {
   login: (credentials: LoginCredentials) => {
-    console.log('🌐 Making API call to:', API_CONFIG.BASE_URL + '/api/v0/auth/login/');
+    console.log('🌐 Making API call to:', API_CONFIG.BASE_URL + '/auth/login/');
     console.log('📝 Sending credentials:', credentials);
-    return api.post(API_CONFIG.BASE_URL + '/api/v0/auth/login/', credentials)
+    return api.post(API_CONFIG.BASE_URL + '/auth/login/', credentials)
       .then(response => {
         console.log('📥 API Response:', response);
         return response;

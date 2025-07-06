@@ -23,8 +23,8 @@ export default function LoginPage() {
         })}
       >
         <LoginForm
-          onSuccess={() => router.push("/dashboard")}
-          onCancel={() => router.push("/dashboard")}
+          onSuccess={() => router.push("/")}
+          onCancel={() => router.push("/login")}
         />
       </div>
     </div>
