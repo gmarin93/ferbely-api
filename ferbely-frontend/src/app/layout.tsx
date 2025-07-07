@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
+import { AuthProvider } from "@/providers/auth-provider";
 import Navbar from "@/components/common/Navbar";
 import { pageVariants } from "@/styles/variants";
 
@@ -31,10 +32,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <Navbar />
-          <main className={pageVariants()}>
-            {children}
-          </main>
+          <AuthProvider>
+            <Navbar />
+            <main className={pageVariants()}>
+              {children}
+            </main>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

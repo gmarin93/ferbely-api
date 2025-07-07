@@ -9,7 +9,7 @@ class BillView(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
     serializer_class_create = BillCreateSerializer
-    permission_classes = [AllowAny]  # Temporarily allow all for development
+    permission_classes = [IsAuthenticated]
     
     @action(detail=False, methods=['get'])
     def get_all_bills(self, request):

@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useAuth } from '@/providers/auth-provider';
 import { 
   Home, 
   Building, 
@@ -26,6 +27,8 @@ import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigation = [
@@ -41,6 +44,16 @@ const Navbar = () => {
     }
     return pathname.startsWith(href);
   };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
+  // Don't render navbar on login page
+  if (pathname === '/login') {
+    return null;
+  }
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200">
@@ -92,14 +105,19 @@ const Navbar = () => {
             <div className="relative">
               <button className={cn(buttonVariants({ variant: 'ghost' }), "space-x-2")}>
                 <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                  <span className={cn(textVariants({ variant: 'small', weight: 'medium' }), "text-white")}>A</span>
+                  <span className={cn(textVariants({ variant: 'small', weight: 'medium' }), "text-white")}>
+                    {user?.first_name?.charAt(0) || 'U'}
+                  </span>
                 </div>
-                <span>Admin</span>
+                <span>{user?.first_name || 'User'}</span>
               </button>
             </div>
 
             {/* Logout */}
-            <button className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), "hover:text-red-600 hover:bg-red-50")}>
+            <button 
+              onClick={handleLogout}
+              className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), "hover:text-red-600 hover:bg-red-50")}
+            >
               <LogOut className="w-5 h-5" />
             </button>
           </div>
@@ -152,11 +170,17 @@ const Navbar = () => {
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="flex items-center px-5">
               <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                <span className={cn(textVariants({ weight: 'medium' }), "text-white")}>A</span>
+                <span className={cn(textVariants({ weight: 'medium' }), "text-white")}>
+                  {user?.first_name?.charAt(0) || 'U'}
+                </span>
               </div>
               <div className="ml-3">
-                <div className={textVariants({ variant: 'body', weight: 'medium' })}>Admin</div>
-                <div className={textVariants({ variant: 'muted' })}>admin@ferbely.com</div>
+                <div className={textVariants({ variant: 'body', weight: 'medium' })}>
+                  {user?.first_name || 'User'}
+                </div>
+                <div className={textVariants({ variant: 'muted' })}>
+                  {user?.email || 'user@ferbely.com'}
+                </div>
               </div>
             </div>
             <div className="mt-3 space-y-1 px-2">
@@ -164,7 +188,10 @@ const Navbar = () => {
                 <Settings className="w-5 h-5" />
                 <span>Settings</span>
               </button>
-              <button className={cn(buttonVariants({ variant: 'ghost' }), "w-full justify-start space-x-3 hover:text-red-600 hover:bg-red-50")}>
+              <button 
+                onClick={handleLogout}
+                className={cn(buttonVariants({ variant: 'ghost' }), "w-full justify-start space-x-3 hover:text-red-600 hover:bg-red-50")}
+              >
                 <LogOut className="w-5 h-5" />
                 <span>Sign out</span>
               </button>

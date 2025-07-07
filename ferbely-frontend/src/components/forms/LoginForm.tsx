@@ -6,8 +6,10 @@ import { z } from 'zod';
 import { CheckSquare } from 'lucide-react';
 import { authApi } from '@/services/api';
 import { useFormMutation } from '@/hooks/useFormMutation';
+import { useAuth } from '@/providers/auth-provider';
 import { FormContainer } from './FormContainer';
 import { InputField } from './FormField';
+import { ButtonComponent } from '../common/Button';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -22,6 +24,7 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
+  const { login } = useAuth();
   const {
     register,
     handleSubmit, 
@@ -40,8 +43,20 @@ export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
       return authApi.login(data);
     },
     queryKey: 'login',
-    onSuccess: () => {
-      console.log('✅ Login successful!');
+    onSuccess: (response) => {
+      console.log('✅ Login successful! Response:', response);
+      
+      // Save token and user info to auth context
+      const { token, user_id, email, username, first_name, last_name } = response.data;
+      
+      login(token, {
+        id: user_id,
+        email,
+        username,
+        first_name,
+        last_name,
+      });
+      
       reset();
       onSuccess?.();
     },
@@ -67,7 +82,6 @@ export default function LoginForm({ onSuccess, onCancel }: LoginFormProps) {
             error={errors.email}
             required
             placeholder="Enter email"
-            type="email"
           />
 
           <InputField

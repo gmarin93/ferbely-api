@@ -4,7 +4,7 @@ import { useState } from 'react';
 interface UseFormMutationOptions<T> {
   mutationFn: (data: T) => Promise<any>;
   queryKey: string;
-  onSuccess?: () => void;
+  onSuccess?: (data: any) => void;
   onError?: (error: any) => void;
 }
 
@@ -21,7 +21,7 @@ export function useFormMutation<T>({
     mutationFn,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
-      onSuccess?.();
+      onSuccess?.(data);
     },
     onError: (error) => {
       console.error(`Error creating ${queryKey}:`, error);

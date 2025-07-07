@@ -9,7 +9,7 @@ class TaskView(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     serializer_class_create = TaskCreateSerializer
-    permission_classes = [AllowAny]  # Temporarily allow all for development
+    permission_classes = [IsAuthenticated]
     
     @action(detail=False, methods=['get'])
     def get_all_tasks(self, request):
