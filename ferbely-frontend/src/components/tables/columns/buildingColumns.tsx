@@ -2,20 +2,21 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Building } from "@/types";
 import { badgeVariants, textVariants, buttonVariants } from "@/styles/variants";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 // Role mapping for badge variants
 const getRoleVariant = (role: string) => {
   switch (role) {
-    case 'house':
-      return 'info';
-    case 'apartment':
-      return 'success';
-    case 'office':
-      return 'purple';
-    case 'shop':
-      return 'warning';
+    case "house":
+      return "info";
+    case "apartment":
+      return "success";
+    case "office":
+      return "purple";
+    case "shop":
+      return "warning";
     default:
-      return 'neutral';
+      return "neutral";
   }
 };
 
@@ -24,7 +25,7 @@ export const buildingColumns: ColumnDef<Building>[] = [
     accessorKey: "name",
     header: "Building Name",
     cell: ({ row }) => (
-      <div className={textVariants({ variant: 'body', weight: 'medium' })}>
+      <div className={textVariants({ variant: "body", weight: "medium" })}>
         {row.getValue("name")}
       </div>
     ),
@@ -48,11 +49,13 @@ export const buildingColumns: ColumnDef<Building>[] = [
     cell: ({ row }) => {
       const available = row.getValue("available") as number;
       return (
-        <div className={cn(
-          textVariants({ variant: 'body', weight: 'medium' }),
-          available === 0 ? 'text-green-600' : 'text-red-600'
-        )}>
-          {available === 0 ? 'Yes' : 'No'}
+        <div
+          className={cn(
+            textVariants({ variant: "body", weight: "medium" }),
+            available === 0 ? "text-green-600" : "text-red-600"
+          )}
+        >
+          {available === 0 ? "Yes" : "No"}
         </div>
       );
     },
@@ -63,8 +66,13 @@ export const buildingColumns: ColumnDef<Building>[] = [
     cell: ({ row }) => {
       const contractName = row.getValue("contract_name") as string;
       return (
-        <div className={textVariants({ variant: contractName ? 'body' : 'muted', weight: 'medium' })}>
-          {contractName || 'No Contract'}
+        <div
+          className={textVariants({
+            variant: contractName ? "body" : "muted",
+            weight: "medium",
+          })}
+        >
+          {contractName || "No Contract"}
         </div>
       );
     },
@@ -72,15 +80,39 @@ export const buildingColumns: ColumnDef<Building>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => (
-      <div className="flex space-x-2">
-        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-indigo-600 hover:text-indigo-900")}>
-          View
-        </button>
-        <button className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), "text-green-600 hover:text-green-900")}>
-          Edit
-        </button>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const buildingId: number = row.original.id;
+      return (
+        <ActionButtons buildingId={buildingId} />
+      );
+    },
   },
-]; 
+];
+
+// Action buttons component that uses router hook properly
+const ActionButtons = ({ buildingId }: { buildingId: number }) => {
+  const router = useRouter();
+
+  return (
+    <div className="flex space-x-2">
+      <button
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "text-indigo-600 hover:text-indigo-900"
+        )}
+        onClick={() => router.push(`/buildings/${buildingId}`)}
+      >
+        View
+      </button>
+      <button
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "text-green-600 hover:text-green-900"
+        )}
+        onClick={() => router.push(`/buildings/${buildingId}/edit`)}
+      >
+        Edit
+      </button>
+    </div>
+  );
+};

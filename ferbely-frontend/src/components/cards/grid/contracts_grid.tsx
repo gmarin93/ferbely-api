@@ -1,6 +1,6 @@
 import { Building, CalendarDays } from "lucide-react";
 
-export const contracts_grid = (active: number, expired: number, buildings: number) => {
+export const contracts_grid = (active: number, expired: number, contracts: number) => {
   return [
     {
       title: "Active Contracts",
@@ -13,8 +13,8 @@ export const contracts_grid = (active: number, expired: number, buildings: numbe
       icon: <CalendarDays className="h-8 w-8 text-red-500" />,
     },
     {
-      title: "Total Buildings",
-      value: buildings,
+      title: "Total Contracts",
+      value: contracts,
       icon: <Building className="h-8 w-8 text-purple-500" />,
     },
   ];

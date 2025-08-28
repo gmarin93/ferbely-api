@@ -6,7 +6,7 @@ from ferbely_app.serializers.v0.building_serializer import BuildingSerializer, B
 class BuildingView(viewsets.ModelViewSet):
     queryset = Building.objects.all()
     serializer_class = BuildingSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get_serializer_class(self):
         if self.action == 'create':

@@ -8,7 +8,7 @@ const getStatusVariant = (status: string) => {
   switch (status) {
     case 'active':
       return 'success';
-    case 'expired':
+    case 'inactive':
       return 'error';
     default:
       return 'neutral';
@@ -72,14 +72,13 @@ export const contractColumns: ColumnDef<Contract>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "building",
+    header: "Building",
     cell: ({ row }) => {
-      const status = row.getValue("status") as string;
-      const variant = getStatusVariant(status);
+      const building = row.getValue("building") as string;
       return (
-        <span className={cn(badgeVariants({ variant }), "capitalize")}>
-          {status}
+        <span className={cn(badgeVariants({ variant: 'info' }), "capitalize")}>
+          {building}
         </span>
       );
     },

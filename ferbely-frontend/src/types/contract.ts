@@ -6,9 +6,9 @@ export interface Contract {
   end_date: string;
   price: string;
   status: 'active' | 'inactive';
-  user: number;
+  user: string;
   tasks: number[];
-  building: number;
+  building: string;
   bill?: number;
   created_at: string;
   updated_at: string;

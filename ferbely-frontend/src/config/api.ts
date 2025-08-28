@@ -11,7 +11,7 @@ export const ENV = {
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
 } as const;
 
-// API Endpoints
+// API Endpoints  
 export const ENDPOINTS = {
   USERS: '/users',
   BUILDINGS: '/buildings',

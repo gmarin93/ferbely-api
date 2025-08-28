@@ -3,7 +3,7 @@ export interface Task {
   name: string;
   type: string;
   status: string;
+  contract: number | null;
   created_at: string;
   updated_at: string;
-  contract_name: string;
 } 

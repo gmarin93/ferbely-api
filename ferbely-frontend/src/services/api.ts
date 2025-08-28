@@ -67,5 +67,3 @@ export const authApi = {
   refreshToken: () => api.post(API_CONFIG.BASE_URL + '/api/v0/auth/refresh/'),
   getProfile: () => api.get(API_CONFIG.BASE_URL + '/api/v0/auth/profile/'),
 }; 
-
-console.log(API_CONFIG.BASE_URL);

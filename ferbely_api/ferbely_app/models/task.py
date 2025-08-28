@@ -24,10 +24,14 @@ class TaskStatus:
 
 class Task(models.Model):
     name = models.CharField(max_length=255)
-    type = models.CharField(max_length=11, choices=tuple(TaskType.choices))
+    type = models.CharField(max_length=11, choices=tuple(TaskType.choices), default=TaskType.MAINTENANCE)
     status = models.CharField(max_length=11, choices=tuple(TaskStatus.choices), default=TaskStatus.PENDING)
+    contract = models.ForeignKey('Contract', on_delete=models.CASCADE, related_name='contract_task', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']  # Orders by newest first
     
     def __str__(self):
         return self.name

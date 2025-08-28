@@ -4,10 +4,10 @@ from rest_framework import serializers
 class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Building
-        fields = ["id", "name", "role", "address", "created_at", "updated_at"]
+        fields = ["id", "name", "role", "address", "owner", "created_at", "updated_at"]
         read_only_fields = ["id", "created_at", "updated_at"]
 
 class BuildingCreateSerializer(serializers.ModelSerializer):    
     class Meta:
-        model = Building
-        fields = ["name", "role", "address"]
+        model = Building        
+        fields = ["name", "role", "address", "owner"]

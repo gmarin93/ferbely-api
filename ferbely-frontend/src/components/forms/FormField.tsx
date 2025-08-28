@@ -48,7 +48,7 @@ export const InputField = ({
         {...register}
         type={type}
         placeholder={placeholder}
-        className={inputVariants({ variant: error ? 'error' : 'default' })}
+        className={cn(inputVariants({ variant: error ? 'error' : 'default' }), "text-black")}
       />
     </FormField>
   );
@@ -75,7 +75,7 @@ export const SelectField = ({
     <FormField label={label} error={error} required={required}>
       <select
         {...register}
-        className={inputVariants({ variant: error ? 'error' : 'default' })}
+        className={cn(inputVariants({ variant: error ? 'error' : 'default' }), "text-black")}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (

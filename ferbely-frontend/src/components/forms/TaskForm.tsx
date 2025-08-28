@@ -4,10 +4,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { CheckSquare } from 'lucide-react';
-import { taskApi } from '@/services/api';
+import { taskApi, contractApi } from '@/services/api';
 import { useFormMutation } from '@/hooks/useFormMutation';
 import { FormContainer } from './FormContainer';
 import { InputField, SelectField } from './FormField';
+import { useQuery } from '@tanstack/react-query';
 
 const taskSchema = z.object({
   name: z.string().min(1, 'Task name is required').max(100),
@@ -15,6 +16,10 @@ const taskSchema = z.object({
   status: z.enum(['pending', 'in_progress', 'completed'], {
     required_error: 'Please select a status',
   }),
+  type: z.enum(['maintenance', 'repair', 'cleaning', 'other'], {
+    required_error: 'Please select a type',
+  }),
+  contract: z.string(),
 });
 
 type TaskFormData = z.infer<typeof taskSchema>;
@@ -46,8 +51,21 @@ export default function TaskForm({ onSuccess, onCancel }: TaskFormProps) {
     },
   });
 
+  const onSubmit = (data: TaskFormData) => {
+    const transformedData = {
+      ...data,
+      contract: data.contract ? Number(data.contract) : null,
+    };
+    submit(transformedData);
+  };
+
+  const {data: contracts} = useQuery({
+    queryKey: ['contracts'],
+    queryFn: contractApi.getAll,
+  });
+
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FormContainer
         title="Add New Task"
         icon={CheckSquare}
@@ -82,6 +100,28 @@ export default function TaskForm({ onSuccess, onCancel }: TaskFormProps) {
               { value: 'in_progress', label: 'In Progress' },
               { value: 'completed', label: 'Completed' },
             ]}
+          />
+          <SelectField
+            label="Type"
+            register={register('type')}
+            error={errors.type}
+            required
+            options={[
+              { value: 'maintenance', label: 'Maintenance' },
+              { value: 'repair', label: 'Repair' },
+              { value: 'cleaning', label: 'Cleaning' },
+              { value: 'other', label: 'Other' },
+            ]}
+          />
+          <SelectField
+            label="Contract"
+            register={register('contract')}
+            error={errors.contract}
+            required
+            options={[...(contracts?.data.results.map((contract) => ({
+              value: contract.id.toString(),
+              label: contract.name,
+            })) || [])]}
           />
         </div>
       </FormContainer>
